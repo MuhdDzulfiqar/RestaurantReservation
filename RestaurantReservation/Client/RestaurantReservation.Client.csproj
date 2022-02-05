@@ -22,8 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Customers\" />
     <Folder Include="Pages\Categories\" />
+    <Folder Include="Pages\Customers\" />
     <Folder Include="Pages\Reservations\" />
     <Folder Include="Pages\Promotions\" />
     <Folder Include="Pages\Reviews\" />

@@ -17,6 +17,9 @@ namespace RestaurantReservation.Shared.Domain
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Last Name does not meet length requirements")]
         public string LastName { get; set; }
 
+        [DataType(DataType.EmailAddress, ErrorMessage = "Email Address is not a valid email")]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
 
         [Required]
         [DataType(DataType.PhoneNumber)]
