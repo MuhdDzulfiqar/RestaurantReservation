@@ -22,10 +22,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Customer\" />
+    <Folder Include="Pages\Customers\" />
+    <Folder Include="Pages\Categories\" />
+    <Folder Include="Pages\Reservations\" />
+    <Folder Include="Pages\Promotions\" />
     <Folder Include="Pages\Reviews\" />
-    <Folder Include="Pages\Restaurant\" />
-    <Folder Include="Pages\Staff\" />
+    <Folder Include="Pages\Restaurants\" />
+    <Folder Include="Pages\Staffs\" />
   </ItemGroup>
 
 </Project>
