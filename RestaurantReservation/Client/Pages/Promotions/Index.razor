@@ -1,5 +1,75 @@
-﻿<h3>Index</h3>
+﻿@page "/promotions/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">Car Promotions</h3>
+
+<a href="/promotions/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New promotion
+</a>
+<br />
+<br />
+
+@if (Promotions == null)
+{
+    <div class="alert alert-info">Loading Promotions...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Promotion Name</th>
+                <th>Date Start</th>
+                <th>Date End</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var promotion in Promotions)
+            {
+            <tr>
+                <td>@promotion.Id</td>
+                <td>@promotion.DateStart.Date.ToString("dd MMMM yyyy")</td>
+                <td>@promotion.DateEnd.Date.ToString("dd MMMM yyyy")</td>
+                <td>
+                    <a href="/promotions/view/@promotion.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/promotions/edit/@promotion.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(promotion.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
+    private List<Promotion> Promotions;
+    private DateTime nullDT = new DateTime(1, 1, 1, 0, 0, 0);
+
+    protected async override Task OnInitializedAsync()
+    {
+        Promotions = await _client.GetFromJsonAsync<List<Promotion>>($"{Endpoints.PromotionsEndpoint}");
+    }
+
+    async Task Delete(int promotionId)
+    {
+        var promotion = Promotions.First(q => q.Id == promotionId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {promotion.Id}?");
+        if (confirm)
+
+        {
+            await _client.DeleteAsync($"{Endpoints.PromotionsEndpoint}/{promotionId}");
+            await OnInitializedAsync();
+        }
+    }
 
 }
