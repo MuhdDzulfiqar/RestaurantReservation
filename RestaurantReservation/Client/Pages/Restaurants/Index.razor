@@ -1,6 +1,74 @@
-﻿<h3>Index</h3>
+﻿@page "/restaurants/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+
+
+<h3 class="card-title">Restaurants</h3>
+
+<a href="/restaurants/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New restaurant
+</a>
+<br />
+<br />
+
+@if (Restaurants == null)
+{
+    <div class="alert alert-info">Loading Restaurants...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Restaurant Name</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var restaurant in Restaurants)
+            {
+            <tr>
+                <td>@restaurant.Name</td>
+                <td>@restaurant.Address</td>
+                <td>@restaurant.ContactNumber</td>
+                <td>
+                    <a href="/restaurants/view/@restaurant.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/restaurants/edit/@restaurant.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(restaurant.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
+    private List<Restaurant> Restaurants;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
+    }
+
+    async Task Delete(int restaurantId)
+    {
+        var restaurant = Restaurants.First(q => q.Id == restaurantId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {restaurant.Name}?");
+        if (confirm)
+
+        {
+            await _client.DeleteAsync($"{Endpoints.RestaurantsEndpoint}/{restaurantId}");
+            await OnInitializedAsync();
+        }
+    }
 
 }
-fullsd cancer
