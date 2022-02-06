@@ -21,6 +21,7 @@ namespace RestaurantReservation.Shared.Domain
         [EmailAddress]
         public string EmailAddress { get; set; }
 
+
         [Required]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"(6|8|9)\d{7}", ErrorMessage = "Contact Number is not a valid number")]
