@@ -21,6 +21,7 @@ namespace RestaurantReservation.Server.Controllers
             _context = context;
         }
 
+
         // GET: api/Reservations
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
