@@ -1,0 +1,18 @@
+﻿@page "/categories/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent category="category" Disabled="true" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Category category = new Category();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        category = await
+       _client.GetFromJsonAsync<Category>($"{Endpoints.CategoriesEndpoint}/{id}");
+    }
+}

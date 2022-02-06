@@ -11,9 +11,9 @@
         </div>
 
         <div class=" form-group">
-            <label>Address: </label>
+            <label>Status: </label>
             <div>
-                <InputNumber @bind-Value="@category.Status" class="form-control" />
+                <InputText @bind-Value="@category.Status" class="form-control" />
                 <ValidationMessage For="@(() => category.Status)" />
             </div>
         </div>

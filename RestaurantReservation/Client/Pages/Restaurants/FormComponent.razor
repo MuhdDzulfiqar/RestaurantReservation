@@ -13,7 +13,7 @@
         <div class=" form-group">
             <label>Address: </label>
             <div>
-                <InputNumber @bind-Value="@restaurant.Address" class="form-control" />
+                <InputText @bind-Value="@restaurant.Address" class="form-control" />
                 <ValidationMessage For="@(() => restaurant.Address)" />
             </div>
         </div>
