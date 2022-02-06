@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestaurantReservation.Server.Static
+namespace RestaurantReservation.Client.Static
 {
     public static class Endpoints
     {
