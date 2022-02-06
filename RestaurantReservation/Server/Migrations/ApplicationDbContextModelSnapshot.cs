@@ -654,7 +654,7 @@ namespace RestaurantReservation.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurants")
+                    b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -668,7 +668,7 @@ namespace RestaurantReservation.Server.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Restaurants");
+                    b.Navigation("Restaurant");
 
                     b.Navigation("Staff");
                 });

@@ -10,7 +10,7 @@ using RestaurantReservation.Server.Data;
 namespace RestaurantReservation.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220206134315_newdb")]
+    [Migration("20220206135703_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -656,7 +656,7 @@ namespace RestaurantReservation.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurants")
+                    b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurant")
                         .WithMany()
                         .HasForeignKey("RestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -670,7 +670,7 @@ namespace RestaurantReservation.Server.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("Restaurants");
+                    b.Navigation("Restaurant");
 
                     b.Navigation("Staff");
                 });

@@ -21,7 +21,7 @@ namespace RestaurantReservation.Shared.Domain
 
         [Required]
         public int RestaurantID { get; set; }
-        public virtual Restaurant Restaurants { get; set; }
+        public virtual Restaurant Restaurant { get; set; }
         [Required]
         public int CustomerID { get; set; }
         public virtual Customer Customer { get; set; }
