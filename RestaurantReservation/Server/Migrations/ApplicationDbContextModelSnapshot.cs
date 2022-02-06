@@ -457,9 +457,6 @@ namespace RestaurantReservation.Server.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("DateEnd")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("DateStart")
                         .HasColumnType("datetime2");
 
@@ -486,6 +483,8 @@ namespace RestaurantReservation.Server.Migrations
                     b.HasIndex("CustomerID");
 
                     b.HasIndex("RestaurantID");
+
+                    b.HasIndex("StaffID");
 
                     b.ToTable("Reservations");
                 });
@@ -652,7 +651,7 @@ namespace RestaurantReservation.Server.Migrations
 
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Reservation", b =>
                 {
-                    b.HasOne("RestaurantReservation.Shared.Domain.Customer", null)
+                    b.HasOne("RestaurantReservation.Shared.Domain.Customer", "Customer")
                         .WithMany("Reservations")
                         .HasForeignKey("CustomerID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -664,7 +663,17 @@ namespace RestaurantReservation.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RestaurantReservation.Shared.Domain.Staff", "Staff")
+                        .WithMany()
+                        .HasForeignKey("StaffID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
                     b.Navigation("Restaurants");
+
+                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Customer", b =>

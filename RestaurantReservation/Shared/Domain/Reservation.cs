@@ -9,11 +9,10 @@ namespace RestaurantReservation.Shared.Domain
 {
     public class Reservation : BaseDomainModel
     {
-        public DateTime DateStart { get; set; }
-
         [Required]
         [DataType(DataType.Date)]
-        public DateTime DateEnd { get; set; }
+        public DateTime DateStart { get; set; }
+
 
         public DateTime TimeStart { get; set; }
 
@@ -27,7 +26,9 @@ namespace RestaurantReservation.Shared.Domain
         public virtual Restaurant Restaurants { get; set; }
         [Required]
         public int CustomerID { get; set; }
+        public virtual Customer Customer { get; set; }
         [Required]
         public int StaffID { get; set; }
+        public virtual Staff Staff{ get; set; }
     }
 }

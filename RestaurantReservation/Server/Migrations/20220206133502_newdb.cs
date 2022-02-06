@@ -317,7 +317,6 @@ namespace RestaurantReservation.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RestaurantID = table.Column<int>(type: "int", nullable: false),
@@ -341,6 +340,12 @@ namespace RestaurantReservation.Server.Migrations
                         name: "FK_Reservations_Restaurants_RestaurantID",
                         column: x => x.RestaurantID,
                         principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Staffs_StaffID",
+                        column: x => x.StaffID,
+                        principalTable: "Staffs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -419,6 +424,11 @@ namespace RestaurantReservation.Server.Migrations
                 name: "IX_Reservations_RestaurantID",
                 table: "Reservations",
                 column: "RestaurantID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_StaffID",
+                table: "Reservations",
+                column: "StaffID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -457,9 +467,6 @@ namespace RestaurantReservation.Server.Migrations
                 name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Staffs");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -470,6 +477,9 @@ namespace RestaurantReservation.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Restaurants");
+
+            migrationBuilder.DropTable(
+                name: "Staffs");
         }
     }
 }
