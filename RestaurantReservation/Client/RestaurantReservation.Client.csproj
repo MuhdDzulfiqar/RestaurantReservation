@@ -27,7 +27,6 @@
     <Folder Include="Pages\Promotions\" />
     <Folder Include="Pages\Reviews\" />
     <Folder Include="Pages\Restaurants\" />
-    <Folder Include="Pages\Staffs\" />
   </ItemGroup>
 
 </Project>
