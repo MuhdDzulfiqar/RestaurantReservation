@@ -318,7 +318,6 @@ namespace RestaurantReservation.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TimeStart = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RestaurantID = table.Column<int>(type: "int", nullable: false),
                     CustomerID = table.Column<int>(type: "int", nullable: false),
                     StaffID = table.Column<int>(type: "int", nullable: false),

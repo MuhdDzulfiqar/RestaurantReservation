@@ -10,7 +10,7 @@ using RestaurantReservation.Server.Data;
 namespace RestaurantReservation.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220206133502_newdb")]
+    [Migration("20220206134315_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -470,9 +470,6 @@ namespace RestaurantReservation.Server.Migrations
 
                     b.Property<int>("StaffID")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("TimeEnd")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");

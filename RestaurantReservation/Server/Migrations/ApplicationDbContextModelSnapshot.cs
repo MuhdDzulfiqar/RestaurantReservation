@@ -469,9 +469,6 @@ namespace RestaurantReservation.Server.Migrations
                     b.Property<int>("StaffID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("TimeEnd")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("TimeStart")
                         .HasColumnType("datetime2");
 
