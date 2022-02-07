@@ -65,23 +65,6 @@ namespace RestaurantReservation.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Certifications",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certifications", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
@@ -317,7 +300,6 @@ namespace RestaurantReservation.Server.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
-                    CertificationID = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -330,12 +312,6 @@ namespace RestaurantReservation.Server.Migrations
                         name: "FK_Restaurants_Categories_CategoryID",
                         column: x => x.CategoryID,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Restaurants_Certifications_CertificationID",
-                        column: x => x.CertificationID,
-                        principalTable: "Certifications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -463,11 +439,6 @@ namespace RestaurantReservation.Server.Migrations
                 name: "IX_Restaurants_CategoryID",
                 table: "Restaurants",
                 column: "CategoryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Restaurants_CertificationID",
-                table: "Restaurants",
-                column: "CertificationID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -519,9 +490,6 @@ namespace RestaurantReservation.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Certifications");
         }
     }
 }

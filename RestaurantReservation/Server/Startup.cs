@@ -8,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestaurantReservation.Server.Data;
+using RestaurantReservation.Server.IRepository;
 using RestaurantReservation.Server.Models;
+using RestaurantReservation.Server.Repository;
 using System.Linq;
 
 namespace RestaurantReservation.Server
@@ -40,6 +42,8 @@ namespace RestaurantReservation.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews().AddNewtonsoftJson(op =>op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages();

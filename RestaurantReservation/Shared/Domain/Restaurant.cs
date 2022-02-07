@@ -25,9 +25,5 @@ namespace RestaurantReservation.Shared.Domain
 
         public virtual Category Category { get; set; }
 
-        [Required]
-        public int CertificationID { get; set; }
-
-        public virtual Certification Certification { get; set; }
     }
 }

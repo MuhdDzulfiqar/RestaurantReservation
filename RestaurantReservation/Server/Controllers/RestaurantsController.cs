@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.Server.Data;
+using RestaurantReservation.Server.IRepository;
 using RestaurantReservation.Shared.Domain;
 
 namespace RestaurantReservation.Server.Controllers
@@ -14,32 +15,33 @@ namespace RestaurantReservation.Server.Controllers
     [ApiController]
     public class RestaurantsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public RestaurantsController(ApplicationDbContext context)
+        public RestaurantsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Restaurants
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Restaurant>>> GetRestaurants()
+        public async Task<IActionResult> GetRestaurants()
         {
-            return await _context.Restaurants.ToListAsync();
+            var restaurants = await _unitOfWork.Restaurants.GetAll();
+            return Ok(restaurants);
         }
 
         // GET: api/Restaurants/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Restaurant>> GetRestaurant(int id)
+        public async Task<IActionResult> GetRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _unitOfWork.Restaurants.Get(q => q.Id == id);
 
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return restaurant;
+            return Ok(restaurant);
         }
 
         // PUT: api/Restaurants/5
@@ -52,15 +54,15 @@ namespace RestaurantReservation.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(restaurant).State = EntityState.Modified;
+            _unitOfWork.Restaurants.Update(restaurant);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RestaurantExists(id))
+                if (!await RestaurantExists(id))
                 {
                     return NotFound();
                 }
@@ -78,8 +80,8 @@ namespace RestaurantReservation.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Restaurant>> PostRestaurant(Restaurant restaurant)
         {
-            _context.Restaurants.Add(restaurant);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Restaurants.Insert(restaurant);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetRestaurant", new { id = restaurant.Id }, restaurant);
         }
@@ -88,21 +90,22 @@ namespace RestaurantReservation.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _unitOfWork.Restaurants.Get(q => q.Id == id);
             if (restaurant == null)
             {
                 return NotFound();
             }
 
-            _context.Restaurants.Remove(restaurant);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Restaurants.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool RestaurantExists(int id)
+        private async Task<bool> RestaurantExists(int id)
         {
-            return _context.Restaurants.Any(e => e.Id == id);
+            var restaurant = await _unitOfWork.Restaurants.Get(q => q.Id == id);
+            return restaurant != null;
         }
     }
 }

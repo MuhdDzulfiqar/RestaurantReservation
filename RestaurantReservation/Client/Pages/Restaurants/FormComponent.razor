@@ -37,9 +37,9 @@
                     {
                         foreach (var category in Categories)
                         {
-                            <option value="@category.Id">
-                                @category.Name
-                            </option>
+                <option value="@category.Id">
+                    @category.Name - @category.Status
+                </option>
                         }
                     }
                 </InputSelect>
@@ -47,24 +47,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Status: </label>
-            <div>
-                <InputSelect @bind-Value="restaurant.CertificationID" class="form-control">
-                    <option value="">-- Select Status --</option>
-                    @if (Certifications != null)
-                    {
-                        foreach (var certification in Certifications)
-                        {
-                            <option value="@certification.Id">
-                                @certification.Status
-                            </option>
-                        }
-                    }
-                </InputSelect>
-                <ValidationMessage For="@(() => restaurant.CertificationID)" />
-            </div>
-        </div>
+
     </fieldset>
 
     @if (!Disabled)
@@ -83,11 +66,9 @@
     [Parameter] public EventCallback OnValidSubmit { get; set; }
 
     private IList<Category> Categories;
-    private IList<Certification> Certifications;
 
     protected async override Task OnInitializedAsync()
     {
         Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
-        Certifications = await _client.GetFromJsonAsync<List<Certification>>($"{Endpoints.CertificationsEndpoint}");
     }
 }

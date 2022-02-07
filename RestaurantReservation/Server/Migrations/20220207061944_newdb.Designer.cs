@@ -10,7 +10,7 @@ using RestaurantReservation.Server.Data;
 namespace RestaurantReservation.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220206194113_newdb")]
+    [Migration("20220207061944_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -356,34 +356,6 @@ namespace RestaurantReservation.Server.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("RestaurantReservation.Shared.Domain.Certification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Certifications");
-                });
-
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -530,9 +502,6 @@ namespace RestaurantReservation.Server.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CertificationID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -556,8 +525,6 @@ namespace RestaurantReservation.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("CertificationID");
 
                     b.ToTable("Restaurants");
                 });
@@ -718,15 +685,7 @@ namespace RestaurantReservation.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RestaurantReservation.Shared.Domain.Certification", "Certification")
-                        .WithMany()
-                        .HasForeignKey("CertificationID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
-
-                    b.Navigation("Certification");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Customer", b =>

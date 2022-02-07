@@ -43,6 +43,25 @@
         </div>
 
         <div class="form-group">
+            <label>Staff: </label>
+            <div>
+                <InputSelect @bind-Value="reservation.StaffID" class="form-control">
+                    <option value="">-- Select Staff --</option>
+                    @if (Staffs != null)
+                    {
+                        foreach (var staff in Staffs)
+                        {
+                            <option value="@staff.Id">
+                                @staff.Name @staff.Gender - @staff.EmailAddress
+                            </option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => reservation.StaffID)" />
+            </div>
+        </div>
+
+        <div class="form-group">
             <label>Date: </label>
             <div>
                 <InputDate @bind-Value="@reservation.DateStart" class="form-control" />
@@ -69,10 +88,12 @@
 
     private IList<Staff> Staffs;
     private IList<Customer> Customers;
+    private IList<Restaurant> Restaurants;
 
     protected async override Task OnInitializedAsync()
     {
         Staffs = await _client.GetFromJsonAsync<List<Staff>>($"{Endpoints.StaffsEndpoint}");
         Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
+        Restaurants = await _client.GetFromJsonAsync<List<Restaurant>>($"{Endpoints.RestaurantsEndpoint}");
     }
 }

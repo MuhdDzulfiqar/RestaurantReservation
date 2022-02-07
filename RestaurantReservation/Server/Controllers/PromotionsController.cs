@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.Server.Data;
+using RestaurantReservation.Server.IRepository;
 using RestaurantReservation.Shared.Domain;
 
 namespace RestaurantReservation.Server.Controllers
@@ -14,32 +15,33 @@ namespace RestaurantReservation.Server.Controllers
     [ApiController]
     public class PromotionsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PromotionsController(ApplicationDbContext context)
+        public PromotionsController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         // GET: api/Promotions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Promotion>>> GetPromotions()
+        public async Task<IActionResult> GetPromotions()
         {
-            return await _context.Promotions.ToListAsync();
+            var promotions = await _unitOfWork.Promotions.GetAll();
+            return Ok(promotions);
         }
 
         // GET: api/Promotions/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Promotion>> GetPromotion(int id)
+        public async Task<IActionResult> GetPromotion(int id)
         {
-            var promotion = await _context.Promotions.FindAsync(id);
+            var promotion = await _unitOfWork.Promotions.Get(q => q.Id == id);
 
             if (promotion == null)
             {
                 return NotFound();
             }
 
-            return promotion;
+            return Ok(promotion);
         }
 
         // PUT: api/Promotions/5
@@ -52,15 +54,15 @@ namespace RestaurantReservation.Server.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(promotion).State = EntityState.Modified;
+            _unitOfWork.Promotions.Update(promotion);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitOfWork.Save(HttpContext);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PromotionExists(id))
+                if (!await PromotionExists(id))
                 {
                     return NotFound();
                 }
@@ -78,8 +80,8 @@ namespace RestaurantReservation.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Promotion>> PostPromotion(Promotion promotion)
         {
-            _context.Promotions.Add(promotion);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Promotions.Insert(promotion);
+            await _unitOfWork.Save(HttpContext);
 
             return CreatedAtAction("GetPromotion", new { id = promotion.Id }, promotion);
         }
@@ -88,21 +90,22 @@ namespace RestaurantReservation.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePromotion(int id)
         {
-            var promotion = await _context.Promotions.FindAsync(id);
+            var promotion = await _unitOfWork.Promotions.Get(q => q.Id == id);
             if (promotion == null)
             {
                 return NotFound();
             }
 
-            _context.Promotions.Remove(promotion);
-            await _context.SaveChangesAsync();
+            await _unitOfWork.Promotions.Delete(id);
+            await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private bool PromotionExists(int id)
+        private async Task<bool> PromotionExists(int id)
         {
-            return _context.Promotions.Any(e => e.Id == id);
+            var promotion = await _unitOfWork.Promotions.Get(q => q.Id == id);
+            return promotion != null;
         }
     }
 }

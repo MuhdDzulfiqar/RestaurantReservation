@@ -28,4 +28,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\Entities\" />
+    <Folder Include="IRepository\" />
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
 </Project>
