@@ -24,7 +24,8 @@ else
             <tr>
                 <th>Reservation Id</th>
                 <th>Restaurant</th>
-                <th>Customer LastName</th>
+                <th>Customer</th>
+                <th>Staff</th>
                 <th>Date</th>
                 <th>Actions</th>
             </tr>
@@ -34,8 +35,9 @@ else
             {
             <tr>
                 <td>@reservation.Id</td>
-                <td>@reservation.Customer.LastName</td>
                 <td>@reservation.Restaurant.Name</td>
+                <td>@reservation.Customer.LastName</td>
+                <td>@reservation.Staff.Name</td>
                 <td>@reservation.DateStart.Date.ToString("dd MMMM yyyy")</td>
 
 
