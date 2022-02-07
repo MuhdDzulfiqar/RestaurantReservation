@@ -9,6 +9,7 @@ namespace RestaurantReservation.Client.Static
     {
         private static readonly string Prefix = "api";
 
+
         public static readonly string CategoriesEndpoint = $"{Prefix}/categories";
         public static readonly string PromotionsEndpoint = $"{Prefix}/promotions";
         public static readonly string ReservationsEndpoint = $"{Prefix}/reservations";
