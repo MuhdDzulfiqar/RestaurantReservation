@@ -16,6 +16,5 @@ namespace RestaurantReservation.Client.Static
         public static readonly string CustomersEndpoint = $"{Prefix}/customers";
         public static readonly string ReviewsEndpoint = $"{Prefix}/reviews";
         public static readonly string StaffsEndpoint = $"{Prefix}/staffs";
-        public static readonly string CertificationsEndpoint = $"{Prefix}/certifications";
     }
 }
