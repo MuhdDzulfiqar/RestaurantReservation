@@ -1,4 +1,6 @@
-﻿<EditForm Model="@restaurant" OnValidSubmit="OnValidSubmit">
+﻿@inject HttpClient _client
+
+<EditForm Model="@restaurant" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <fieldset disabled="@Disabled">
@@ -25,6 +27,44 @@
                 <ValidationMessage For="@(() => restaurant.ContactNumber)" />
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Category: </label>
+            <div>
+                <InputSelect @bind-Value="restaurant.CategoryID" class="form-control">
+                    <option value="">-- Select Category --</option>
+                    @if (Categories != null)
+                    {
+                        foreach (var category in Categories)
+                        {
+                            <option value="@category.Id">
+                                @category.Name
+                            </option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => restaurant.CategoryID)" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Status: </label>
+            <div>
+                <InputSelect @bind-Value="restaurant.CertificationID" class="form-control">
+                    <option value="">-- Select Status --</option>
+                    @if (Certifications != null)
+                    {
+                        foreach (var certification in Certifications)
+                        {
+                            <option value="@certification.Id">
+                                @certification.Status
+                            </option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => restaurant.CertificationID)" />
+            </div>
+        </div>
     </fieldset>
 
     @if (!Disabled)
@@ -41,4 +81,13 @@
     [Parameter] public Restaurant restaurant { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Category> Categories;
+    private IList<Certification> Certifications;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Categories = await _client.GetFromJsonAsync<List<Category>>($"{Endpoints.CategoriesEndpoint}");
+        Certifications = await _client.GetFromJsonAsync<List<Certification>>($"{Endpoints.CertificationsEndpoint}");
+    }
 }

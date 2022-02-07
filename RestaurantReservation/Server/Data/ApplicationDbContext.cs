@@ -25,6 +25,6 @@ namespace RestaurantReservation.Server.Data
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Staff> Staffs { get; set; }
-
+        public DbSet<Certification> Certifications { get; set; }
     }
 }
