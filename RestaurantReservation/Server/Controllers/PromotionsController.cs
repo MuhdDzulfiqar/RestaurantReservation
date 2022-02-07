@@ -26,7 +26,7 @@ namespace RestaurantReservation.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPromotions()
         {
-            var promotions = await _unitOfWork.Promotions.GetAll();
+            var promotions = await _unitOfWork.Promotions.GetAll(includes: q => q.Include(x => x.Restaurant));
             return Ok(promotions);
         }
 

@@ -10,7 +10,7 @@ using RestaurantReservation.Server.Data;
 namespace RestaurantReservation.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220207061944_newdb")]
+    [Migration("20220207084033_newdb")]
     partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -440,6 +440,8 @@ namespace RestaurantReservation.Server.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RestaurantID");
+
                     b.ToTable("Promotions");
                 });
 
@@ -650,6 +652,17 @@ namespace RestaurantReservation.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RestaurantReservation.Shared.Domain.Promotion", b =>
+                {
+                    b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Reservation", b =>
                 {
                     b.HasOne("RestaurantReservation.Shared.Domain.Customer", "Customer")
@@ -659,7 +672,7 @@ namespace RestaurantReservation.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("RestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -689,6 +702,11 @@ namespace RestaurantReservation.Server.Migrations
                 });
 
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Customer", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("RestaurantReservation.Shared.Domain.Restaurant", b =>
                 {
                     b.Navigation("Reservations");
                 });
