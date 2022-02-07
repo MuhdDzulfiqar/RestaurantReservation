@@ -1,0 +1,23 @@
+﻿@page "/promotions/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Promotion </h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditPromotion" promotion="promotion" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Promotion promotion = new Promotion();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        promotion = await _client.GetFromJsonAsync<Promotion>($"{Endpoints.PromotionsEndpoint}/{id}");
+    }
+
+    async Task EditPromotion()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.PromotionsEndpoint}/{id}", promotion);
+        _navManager.NavigateTo("/promotions/");
+    }
+}
