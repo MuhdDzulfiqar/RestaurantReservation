@@ -43,21 +43,21 @@
         </div>
 
         <div class="form-group">
-            <label>Staff: </label>
+            <label>Restaurant: </label>
             <div>
-                <InputSelect @bind-Value="reservation.StaffID" class="form-control">
-                    <option value="">-- Select Staff --</option>
-                    @if (Staffs != null)
+                <InputSelect @bind-Value="reservation.RestaurantID" class="form-control">
+                    <option value="">-- Select Restaurant --</option>
+                    @if (Restaurants != null)
                     {
-                        foreach (var staff in Staffs)
+                        foreach (var restaurant in Restaurants)
                         {
-                            <option value="@staff.Id">
-                                @staff.Name @staff.Gender - @staff.EmailAddress
+                            <option value="@restaurant.Id">
+                                @restaurant.Name - @restaurant.Address - @restaurant.ContactNumber
                             </option>
                         }
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => reservation.StaffID)" />
+                <ValidationMessage For="@(() => reservation.RestaurantID)" />
             </div>
         </div>
 
