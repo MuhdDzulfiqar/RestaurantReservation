@@ -36,9 +36,9 @@ namespace RestaurantReservation.Server.Repository
             => _categories ??= new GenericRepository<Category>(_context);
         public IGenericRepository<Customer> Customers
             => _customers ??= new GenericRepository<Customer>(_context);
-        public IGenericRepository<Promotion> Colours
+        public IGenericRepository<Promotion> Promotions
             => _promotions ??= new GenericRepository<Promotion>(_context);
-        public IGenericRepository<Reservation> Vehicles
+        public IGenericRepository<Reservation> Reservations
             => _reservations ??= new GenericRepository<Reservation>(_context);
         public IGenericRepository<Restaurant> Restaurants
             => _restaurants ??= new GenericRepository<Restaurant>(_context);
@@ -47,9 +47,6 @@ namespace RestaurantReservation.Server.Repository
         public IGenericRepository<Staff> Staffs
             => _staffs ??= new GenericRepository<Staff>(_context);
 
-        public IGenericRepository<Promotion> Promotions => throw new NotImplementedException();
-
-        public IGenericRepository<Reservation> Reservations => throw new NotImplementedException();
 
         public void Dispose()
         {
