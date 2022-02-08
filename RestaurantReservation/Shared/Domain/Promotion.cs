@@ -18,12 +18,12 @@ namespace RestaurantReservation.Shared.Domain
         [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
 
-        public DateTime TimeStart { get; set; }
+        //public DateTime TimeStart { get; set; }
 
-        [Required]
-        [DataType(DataType.Time)]
+        //[Required]
+        //[DataType(DataType.Time)]
 
-        public DateTime TimeEnd { get; set; }
+        //public DateTime TimeEnd { get; set; }
 
         [Required]
         public int RestaurantID { get; set; }
