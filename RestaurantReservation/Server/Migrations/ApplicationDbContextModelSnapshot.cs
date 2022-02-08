@@ -653,7 +653,7 @@ namespace RestaurantReservation.Server.Migrations
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Promotion", b =>
                 {
                     b.HasOne("RestaurantReservation.Shared.Domain.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("Promotions")
                         .HasForeignKey("RestaurantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -706,6 +706,8 @@ namespace RestaurantReservation.Server.Migrations
 
             modelBuilder.Entity("RestaurantReservation.Shared.Domain.Restaurant", b =>
                 {
+                    b.Navigation("Promotions");
+
                     b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618

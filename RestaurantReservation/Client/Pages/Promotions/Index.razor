@@ -31,7 +31,7 @@ else
             @foreach (var promotion in Promotions)
             {
             <tr>
-                <td>@promotion.Id</td>
+                <td>@promotion.Name</td>
                 <td>@promotion.DateStart.Date.ToString("dd MMMM yyyy")</td>
                 <td>@promotion.DateEnd.Date.ToString("dd MMMM yyyy")</td>
                 <td>
@@ -63,7 +63,7 @@ else
     async Task Delete(int promotionId)
     {
         var promotion = Promotions.First(q => q.Id == promotionId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {promotion.Id}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {promotion.Name}?");
         if (confirm)
 
         {

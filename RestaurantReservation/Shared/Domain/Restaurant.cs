@@ -27,5 +27,7 @@ namespace RestaurantReservation.Shared.Domain
 
         public virtual List<Reservation> Reservations { get; set; }
 
+        public virtual List<Promotion> Promotions { get; set; }
+
     }
 }
