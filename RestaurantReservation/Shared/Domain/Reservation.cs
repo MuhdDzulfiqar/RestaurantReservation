@@ -18,7 +18,6 @@ namespace RestaurantReservation.Shared.Domain
 
         public DateTime TimeStart { get; set; }
 
-
         [Required]
         public int RestaurantID { get; set; }
         public virtual Restaurant Restaurant { get; set; }

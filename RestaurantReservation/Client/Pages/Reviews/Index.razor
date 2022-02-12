@@ -24,26 +24,30 @@ else
             <tr>
                 <th>Rating</th>
                 <th>Comments</th>
+                <th>Reservation</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var review in Reviews)
             {
-                <tr>
-                    <td>@review.Rating</td>
-                    <td>@review.Comments</td>
-                    <td>
-                        <a href="/reviews/view/@review.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/reviews/edit/@review.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@review.Rating</td>
+                <td>@review.Comments</td>
+                <td>@review.Reservation.Restaurant.Name</td>
+                <td>@review.Reservation.Customer.LastName</td>
+                <td>@review.Reservation.DateStart.Date.ToString("dd MMMM yyyy")</td>
+                <td>
+                    <a href="/reviews/view/@review.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/reviews/edit/@review.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
